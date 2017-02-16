@@ -1,0 +1,333 @@
+<html>
+<head>
+<title>Project 0</title>
+<style type="text/css" href="project0.css"></style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!--Put your D3 import statement between these two lines-->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+<!--Put your D3 import statement between these two lines-->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class='container'>
+        <div class="row">
+            <div id="partOne">
+                <h1>Part One: </h1>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div id="partTwo">
+                <h1>Part Two: </h1>
+                <div class="row">
+                    <div id="barchart-x" class="img-fluid col-md-6">
+                    </div>
+                    <div id="barchart-y" class="img-fluid col-md-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div id="partThree">
+                <h1>Part Three &amp; Four: </h1>
+                <div id="scatterplot" class="img-fluid col-md-6">
+                    <p id="scatterLabel"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="partFive">
+                <h1>Part Five: </h1>
+                <div class="row">
+                    <div id="scatterPlot-1" class="img-fluid col-md-6">
+                    </div>
+                    <div id="scatterPlot-2" class="img-fluid col-md-6">
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="scatterPlot-3" class="img-fluid col-md-6">
+                    </div>
+                    <div id="scatterPlot-4" class="img-fluid col-md-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        // Constants
+        var svgWidth = 450;
+        var svgHeight = 350;
+        var xOffset = 100;
+        var yOffset = 100;
+        var margin = 10;
+        var width = svgWidth - xOffset - ( margin * 2 );
+        var height = svgHeight - yOffset - ( margin * 2 );
+        var xVal = 'x';
+        var yVal = 'y';
+        
+        // Put your part one code here ***********************
+        
+
+        d3.csv( 'data/anscombe_I.csv', function( data ){
+            checkDataset( data, "Anscombe I" );
+            plotBarChart( data );
+            plotScatterPlot( data, "scatterplot", "Anscombe I", true );
+            plotScatterPlot( data, "scatterPlot-1", "Anscombe I", false );
+        } );
+        d3.csv( 'data/anscombe_II.csv', function( data ){
+            checkDataset( data, "Anscombe II" );
+            plotScatterPlot( data, "scatterPlot-2", "Anscombe II", false );
+        } );
+        d3.csv( 'data/anscombe_III.csv', function( data ){
+            checkDataset( data, "Anscombe III" );
+            plotScatterPlot( data, "scatterPlot-3", "Anscombe III", false );
+        } );
+        d3.csv( 'data/anscombe_IV.csv', function( data ){
+            //plotBarChart( data );
+            checkDataset( data, "Anscombe IV" );
+            plotScatterPlot( data, "scatterPlot-4", "Anscombe IV", false );
+        } );
+        // Leave this to test your data uploading. All data uploading should be above this line
+        function checkDataset(dataset, filename) {
+            if (dataset.length == 11)
+                $("#partOne").append("<p>Data loaded correctly for file " + filename + "</p>");
+            else
+                $("#partOne").append("<p>data loaded incorrectly. Try using the debugger to help you find the bug!</p>");
+        }
+        
+        
+        function drawBarChart( data, svgElement, xScale, yScale, plotVal ){
+            // Build axes! (These are kind of annoying, actually...)
+            // Specify the axis scale and general position
+            var xAxis = d3.svg.axis()
+                              .scale( xScale )
+                              .orient("bottom")
+                              //.ticks(5);
+
+            // Add a graphics element to hold the axis we created above (xAxis)
+            var xAxisG = svgElement.append('g')
+                            .attr('class', 'axis')
+                            .attr('transform', 'translate(0, ' + (svgHeight - yOffset - margin) + ')')
+                            .call(xAxis);
+
+            // Add a label that shows the user what that axis represents
+            var xLabel = svgElement.append("text")
+                            .attr('class', 'label')
+                            .attr('x', xOffset + margin + width / 2)
+                            .attr('y', svgHeight - margin - yOffset / 2)
+                            .attr('text-anchor', 'middle')
+                            .text( 'Data Indices' );
+                            
+
+            // Repeat for the y-axis
+            var yAxis = d3.svg.axis()
+                              .scale(yScale)
+                              .orient("left")
+                              //.ticks(5);
+
+            var yAxisG = svgElement.append('g')
+                            .attr('class', 'axis')
+                            .attr('transform', 'translate(' + ( xOffset + margin ) + ', 0)')
+                            .call(yAxis);
+
+            var yLabelLeft = svgElement.append("text")
+                            .attr('class', 'label')
+                            .attr('transform', 'rotate( -90 )'  )
+                            .attr('x', -margin - height/2 )
+                            .attr('y',  margin + xOffset/2 )
+                            .attr('text-anchor', 'middle')
+                            .text( plotVal.toUpperCase() + ' Value' );
+            
+            // Now, we will start actually building our barchart!
+            bar = svgElement.selectAll('.bar') // Select elements
+                        .data(data);		// Bind data to elements
+
+            bar.enter().append('svg:rect');	// Create new elements if needed
+
+            // Update our selection
+            bar
+                .attr('class', 'bar')									// Give it a class
+                .attr('class', function(d, i) { return 'bar bar-' + i})
+                .attr('x', function(d, i ) { return xScale(i+1); })	// x-coordinate
+                .attr('y', function(d) { return yScale(d[plotVal]); })	// y-coordinate
+                .style('fill', 'green')									// color
+                .attr( 'width', xScale.rangeBand() )
+                .attr( 'height', function(d){ return svgHeight - yScale(d[plotVal]) - yOffset - margin } );
+            
+            bar
+                .on('mouseover', function(d, i){
+                    d3.selectAll( '.bar-'+i )
+                        .style( 'fill', 'blue' )
+                })
+                .on('mouseout', function(d, i){
+                    d3.selectAll( '.bar-'+i )
+                        .style( 'fill', 'green' )
+                })
+        }
+        
+        
+        function plotBarChart( data ){
+            data = data.sort(function(a, b) {
+                return d3['ascending'](+a[xVal], +b[xVal]);
+            });
+            var indexScale = d3.scale.ordinal()
+                            .domain( data.map( function( d, i ){
+                                return i + 1;
+                            } ) )
+                            .rangeRoundBands([xOffset + margin, svgWidth - margin], 0.2); // paddinng of 0.2 between range
+
+            var yScaleXValue = d3.scale.linear()
+                            .domain([d3.min(data, function(d) {
+                                return parseFloat(d[xVal]);
+                            })-1, d3.max(data, function(d) {
+                                return parseFloat(d[xVal]);
+                            })+1])
+                            .range([svgHeight - yOffset - margin, margin]);
+            
+            var yScaleYValue = d3.scale.linear()
+                            .domain([d3.min(data, function(d) {
+                                return parseFloat(d[yVal]);
+                            })-1, d3.max(data, function(d) {
+                                return parseFloat(d[yVal]);
+                            })+1])
+                            .range([svgHeight - yOffset - margin, margin]);
+
+            // Next, we will create an SVG element to contain our visualization.
+            var svgLeft = d3.select("#barchart-x").append("svg:svg")
+                                            .attr("width", svgWidth)
+                                            .attr("height", svgHeight);
+            
+            var svgRight = d3.select("#barchart-y").append("svg:svg")
+                                            .attr("width", svgWidth)
+                                            .attr("height", svgHeight);
+
+            drawBarChart( data, svgLeft, indexScale, yScaleXValue, xVal );
+            drawBarChart( data, svgRight, indexScale, yScaleYValue, yVal );
+            
+        }// Put your part two code here ***********************
+        
+        function plotScatterPlot( data, element, label, interaction ){
+            if (!interaction){
+                debugger;
+                $("#"+element).append("<h2><span class='label label-default center-block'>" + label + "</span></h2>");
+            }
+            var xScale = d3.scale.linear()
+                            .domain([d3.min(data, function(d) {
+                                return parseFloat(d[xVal]);
+                            })-1, d3.max(data, function(d) {
+                                return parseFloat(d[xVal]);
+                            })+1])
+                            .range([xOffset + margin, svgWidth - margin]);
+
+            var yScale = d3.scale.linear()
+                            .domain([d3.min(data, function(d) {
+                                return parseFloat(d[yVal]);
+                            })-1, d3.max(data, function(d) {
+                                return parseFloat(d[yVal]);
+                            })+1])
+                            .range([svgHeight - yOffset - margin, margin]);
+
+            // Next, we will create an SVG element to contain our visualization.
+            var svg = d3.select("#"+element).append("svg:svg")
+                                            .attr("width", svgWidth)
+                                            .attr("height", svgHeight);
+
+
+            // Build axes! (These are kind of annoying, actually...)
+            // Specify the axis scale and general position
+            var xAxis = d3.svg.axis()
+                              .scale(xScale)
+                              .orient("bottom")
+                              //.ticks(5);
+
+            // Add a graphics element to hold the axis we created above (xAxis)
+            var xAxisG = svg.append('g')
+                            .attr('class', 'axis')
+                            .attr('transform', 'translate(0, ' + (svgHeight - yOffset - margin) + ')')
+                            .call(xAxis);
+
+            // Add a label that shows the user what that axis represents
+            var xLabel = svg.append("text")
+                            .attr('class', 'label')
+                            .attr('x', xOffset + margin + width / 2)
+                            .attr('y', svgHeight - margin - yOffset / 2)
+                            .attr('text-anchor', 'middle')
+                            .text( xVal.toUpperCase() + ' Variable');
+
+            // Repeat for the y-axis
+            var yAxis = d3.svg.axis()
+                              .scale(yScale)
+                              .orient("left")
+                              //.ticks(5);
+
+            var yAxisG = svg.append('g')
+                            .attr('class', 'axis')
+                            .attr('transform', 'translate(' + ( xOffset + margin ) + ', 0)')
+                            .call(yAxis);
+
+            var yLabel = svg.append("text")
+                            .attr('class', 'label')
+                            .attr('transform', 'rotate( -90 )'  )
+                            .attr('x', -margin - height/2 )
+                            .attr('y',  margin + xOffset/2 )
+                            .attr('text-anchor', 'middle')
+                            .text( yVal.toUpperCase() + ' Variable' );
+            // Now, we will start actually building our scatterplot!
+            point = svg.selectAll('.point') // Select elements
+                        .data(data);		// Bind data to elements
+
+            point.enter().append('svg:circle');	// Create new elements if needed
+
+            // Update our selection
+            point
+                .attr('class', 'point')									// Give it a class
+                .attr('cx', function(d) { return xScale(d[xVal]); })	// x-coordinate
+                .attr('cy', function(d) { return yScale(d[yVal]); })	// y-coordinate
+                .style('fill','green')									// color
+                .attr('r', 0)
+                //.transition()
+                //.duration(transDur)
+                .attr('r', 5);											// radius
+            //point.append('svg:title')									// tooltip
+            //    .text(function(d) { return d['Word']; });
+            if (interaction){
+                point
+                    .on('mouseover', function(d){
+                        d3.select( this )
+                            .style( 'fill', 'red' )
+                            .style( 'cursor', 'pointer' );
+                    })
+                    .on('mouseout', function(d){
+                        d3.select( this )
+                            .style( 'fill', 'green' )
+                            .style( 'cursor', 'default' );
+                    })
+                    .on('click', function(d){
+                        $( '#scatterLabel' ).text( 'X Value: ' + d[xVal] + ', Y Value: ' + d[yVal] )
+                    })
+            }
+            
+    }
+        
+        // Put your part three & four code here ***********************
+        
+        // Put your part five code here ***********************
+        
+    </script>
+</body>
+
+
+</html>
