@@ -1,29 +1,31 @@
 <html>
 <head>
-<title>Project 0</title>
-<style type="text/css" href="project0.css"></style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!--Put your D3 import statement between these two lines-->
+    <title>Project 0</title>
+    <style type="text/css" href="project0.css"></style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--Put your D3 import statement between these two lines-->
     <script src="https://d3js.org/d3.v3.min.js"></script>
-<!--Put your D3 import statement between these two lines-->
+    <!--Put your D3 import statement between these two lines-->
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Theme From: https://startbootstrap.com/template-overviews/freelancer/ -->
+    <!-- Custom Fonts -->
+    <link href="font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     
     <!-- Theme CSS -->
-    <link href="css/freelancer.css" rel="stylesheet">
+    <link href="freelancer.css" rel="stylesheet">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
+    <!-- Navigation Bar -->
     <nav id="mainNav" class="navbar navbar-default navbar-custom">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -58,69 +60,70 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-    <header>
-    <div class='container'>
-        <div class="row">
-            <div id="partOne">
-                <h2>Part One: </h2>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div id="partTwo">
-                <h2>Part Two: </h2>
-                <div class="row">
-                    <div id="barchart-x" class="img-fluid col-md-6">
-                    </div>
-                    <div id="barchart-y" class="img-fluid col-md-6">
-                    </div>
+    
+    
+        <div class='container'>
+            <div class="row">
+                <div id="partOne">
+                    <h2>Part One: </h2>
                 </div>
             </div>
-        </div>
-        
-        <div class="row">
-            <div id="partThree">
-                <h2>Part Three &amp; Four: </h2>
-                <div class="row">
-                    <div id="scatterplot" class="img-fluid col-md-6">
-                        <div class="col-md-offset-4">
-                            <p id="scatterLabel"></p>
-                        </div>
-                    </div>
-                    <div id="scatterplot" class="col-md-3">
-                        <div class="form-group">
-                            <label for="sel1">Select DataSet</label>
-                            <select class="form-control" id="sel1">
-                                <option value='data/anscombe_I.csv'>Anscombe I</option>
-                                <option value='data/anscombe_II.csv'>Anscombe II</option>
-                                <option value='data/anscombe_III.csv'>Anscombe III</option>
-                                <option value='data/anscombe_IV.csv'>Anscombe IV</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div id="partFive">
-                <h2>Part Five: </h2>
-                <div class="row">
-                    <div id="scatterPlot-1" class="img-fluid col-md-6">
-                    </div>
-                    <div id="scatterPlot-2" class="img-fluid col-md-6">
+            <div class="row">
+                <div id="partTwo">
+                    <h2>Part Two: </h2>
+                    <div class="row">
+                        <div id="barchart-x" class="img-fluid col-md-6">
+                        </div>
+                        <div id="barchart-y" class="img-fluid col-md-6">
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div id="scatterPlot-3" class="img-fluid col-md-6">
+            </div>
+
+            <div class="row">
+                <div id="partThree">
+                    <h2>Part Three &amp; Four: </h2>
+                    <div class="row">
+                        <div id="scatterplot" class="img-fluid col-md-6">
+                            <div class="col-md-offset-4">
+                                <p id="scatterLabel"></p>
+                            </div>
+                        </div>
+                        <div id="scatterplot" class="col-md-3">
+                            <div class="form-group">
+                                <label for="sel1">Select DataSet</label>
+                                <select class="form-control" id="sel1">
+                                    <option value='data/anscombe_I.csv'>Anscombe I</option>
+                                    <option value='data/anscombe_II.csv'>Anscombe II</option>
+                                    <option value='data/anscombe_III.csv'>Anscombe III</option>
+                                    <option value='data/anscombe_IV.csv'>Anscombe IV</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div id="scatterPlot-4" class="img-fluid col-md-6">
+                </div>
+            </div>
+
+            <div class="row">
+                <div id="partFive">
+                    <h2>Part Five: </h2>
+                    <div class="row">
+                        <div id="scatterPlot-1" class="img-fluid col-md-6">
+                        </div>
+                        <div id="scatterPlot-2" class="img-fluid col-md-6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="scatterPlot-3" class="img-fluid col-md-6">
+                        </div>
+                        <div id="scatterPlot-4" class="img-fluid col-md-6">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </header>
+    
     
     <script type="text/javascript">
         // Constants
@@ -134,9 +137,9 @@
         var xVal = 'x';
         var yVal = 'y';
         
-        // Put your part one code here ***********************
-        
         var part3Dictionary;
+        
+        // Part 1 Reading from the file
         d3.csv( 'data/anscombe_I.csv', function( data ){
             checkDataset( data, "Anscombe I" );
             plotBarChart( data );
@@ -151,17 +154,19 @@
             var res = plotScatterPlot( "scatterPlot-2", "Anscombe II", false );
             updateScatterPlot( data, res, false );
         } );
+        
         d3.csv( 'data/anscombe_III.csv', function( data ){
             checkDataset( data, "Anscombe III" );
             var res = plotScatterPlot( "scatterPlot-3", "Anscombe III", false );
             updateScatterPlot( data, res, false );
         } );
+        
         d3.csv( 'data/anscombe_IV.csv', function( data ){
-            //plotBarChart( data );
             checkDataset( data, "Anscombe IV" );
             var res = plotScatterPlot( "scatterPlot-4", "Anscombe IV", false );
             updateScatterPlot( data, res, false );
         } );
+        
         // Leave this to test your data uploading. All data uploading should be above this line
         function checkDataset(dataset, filename) {
             if (dataset.length == 11)
@@ -171,21 +176,27 @@
         }
         
         
+        // Part 2 Drawing Bar Charts 
+        
+        /**
+         * Function to draw the bar chart
+         * @param { csvData } data
+         * @param { HTMLElement } svgElement
+         * @param { D3Scale } xScale
+         * @param { D3Scale } yScale
+         * @param { String } plotVal
+         */
+        
         function drawBarChart( data, svgElement, xScale, yScale, plotVal ){
-            // Build axes! (These are kind of annoying, actually...)
-            // Specify the axis scale and general position
             var xAxis = d3.svg.axis()
                               .scale( xScale )
                               .orient("bottom")
-                              //.ticks(5);
-
-            // Add a graphics element to hold the axis we created above (xAxis)
+            
             var xAxisG = svgElement.append('g')
                             .attr('class', 'axis')
                             .attr('transform', 'translate(0, ' + (svgHeight - yOffset - margin) + ')')
                             .call(xAxis);
 
-            // Add a label that shows the user what that axis represents
             var xLabel = svgElement.append("text")
                             .attr('class', 'label')
                             .attr('x', xOffset + margin + width / 2)
@@ -193,8 +204,6 @@
                             .attr('text-anchor', 'middle')
                             .text( 'Data Indices' );
                             
-
-            // Repeat for the y-axis
             var yAxis = d3.svg.axis()
                               .scale(yScale)
                               .orient("left")
@@ -213,34 +222,36 @@
                             .attr('text-anchor', 'middle')
                             .text( plotVal.toUpperCase() + ' Value' );
             
-            // Now, we will start actually building our barchart!
             bar = svgElement.selectAll('.bar') // Select elements
                         .data(data);		// Bind data to elements
 
             bar.enter().append('svg:rect');	// Create new elements if needed
 
-            // Update our selection
             bar
-                .attr('class', 'bar')									// Give it a class
+                .attr('class', 'bar')								
                 .attr('class', function(d, i) { return 'bar bar-' + i})
-                .attr('x', function(d, i ) { return xScale(i+1); })	// x-coordinate
-                .attr('y', function(d) { return yScale(d[plotVal]); })	// y-coordinate
-                .style('fill', 'green')									// color
+                .attr('x', function(d, i ) { return xScale(i+1); })
+                .attr('y', function(d) { return yScale(d[plotVal]); })
+                .style('fill', '#11453D')
                 .attr( 'width', xScale.rangeBand() )
                 .attr( 'height', function(d){ return svgHeight - yScale(d[plotVal]) - yOffset - margin } );
             
             bar
                 .on('mouseover', function(d, i){
                     d3.selectAll( '.bar-'+i )
-                        .style( 'fill', 'blue' )
+                        .style( 'fill', '#6CC8E8' )
                 })
                 .on('mouseout', function(d, i){
                     d3.selectAll( '.bar-'+i )
-                        .style( 'fill', 'green' )
-                })
+                        .style( 'fill', '#11453D' )
+                });
+            bar.exit().remove();
         }
         
-        
+        /**
+         * Sets up scale to draw bar chart
+         * @param { csvData } data
+         */
         function plotBarChart( data ){
             data = data.sort(function(a, b) {
                 return d3['ascending'](+a[xVal], +b[xVal]);
@@ -279,8 +290,9 @@
             drawBarChart( data, svgLeft, indexScale, yScaleXValue, xVal );
             drawBarChart( data, svgRight, indexScale, yScaleYValue, yVal );
             
-        }// Put your part two code here ***********************
+        }
         
+        // Part 3, 4, 5 Draw Scatter Plots
         function plotScatterPlot( element, label, interaction ){
             if (!interaction){
                 $("#"+element).append("<h3><span class='label label-default center-block'>" + label + "</span></h3>");
@@ -296,21 +308,15 @@
                                             .attr("width", svgWidth)
                                             .attr("height", svgHeight);
 
-
-            // Build axes! (These are kind of annoying, actually...)
-            // Specify the axis scale and general position
             var xAxis = d3.svg.axis()
                               .scale(xScale)
-                              .orient("bottom")
-                              //.ticks(5);
+                              .orient("bottom");
 
-            // Add a graphics element to hold the axis we created above (xAxis)
             var xAxisG = svg.append('g')
                             .attr('class', 'axis')
                             .attr('transform', 'translate(0, ' + (svgHeight - yOffset - margin) + ')')
                             .call(xAxis);
 
-            // Add a label that shows the user what that axis represents
             var xLabel = svg.append("text")
                             .attr('class', 'label')
                             .attr('x', xOffset + margin + width / 2)
@@ -318,11 +324,9 @@
                             .attr('text-anchor', 'middle')
                             .text( xVal.toUpperCase() + ' Variable');
 
-            // Repeat for the y-axis
             var yAxis = d3.svg.axis()
                               .scale(yScale)
-                              .orient("left")
-                              //.ticks(5);
+                              .orient("left");
 
             var yAxisG = svg.append('g')
                             .attr('class', 'axis')
@@ -338,9 +342,7 @@
                             .text( yVal.toUpperCase() + ' Variable' );
             
             
-            return { svgElement: svg, xScale: xScale, xAxis: xAxis, xAxisG: xAxisG, yScale: yScale, yAxis: yAxis, yAxisG: yAxisG }
-            
-            
+            return { svgElement: svg, xScale: xScale, xAxis: xAxis, xAxisG: xAxisG, yScale: yScale, yAxis: yAxis, yAxisG: yAxisG };
             
         }
         
@@ -394,7 +396,7 @@
                 .attr('class', 'point')									// Give it a class
                 .attr('cx', function(d) { return elementDict.xScale(d[xVal]); })	// x-coordinate
                 .attr('cy', function(d) { return elementDict.yScale(d[yVal]); })	// y-coordinate
-                .style('fill','green')									// color
+                .style('fill','#11453D')									// color
                 .attr('r', 0)
                 .transition()
                 .duration( 1000 )
@@ -403,12 +405,12 @@
                 point
                     .on('mouseover', function(d){
                         d3.select( this )
-                            .style( 'fill', 'red' )
+                            .style( 'fill', '#6CC8E8' )
                             .style( 'cursor', 'pointer' );
                     })
                     .on('mouseout', function(d){
                         d3.select( this )
-                            .style( 'fill', 'green' )
+                            .style( 'fill', '#11453D' )
                             .style( 'cursor', 'default' );
                     })
                     .on('click', function(d){
@@ -451,6 +453,7 @@
 
         }
         
+        // Code for updating data based on visualization
         $('#sel1').on('change', function(){
             var filename = $('#sel1').val();
             d3.csv( filename, function( data ){
@@ -460,9 +463,7 @@
             } );
             
         });
-        // Put your part three & four code here ***********************
         
-        // Put your part five code here ***********************
         
     </script>
 </body>
