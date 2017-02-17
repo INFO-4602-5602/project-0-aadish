@@ -221,7 +221,6 @@
         
         function plotScatterPlot( data, element, label, interaction ){
             if (!interaction){
-                debugger;
                 $("#"+element).append("<h2><span class='label label-default center-block'>" + label + "</span></h2>");
             }
             var xScale = d3.scale.linear()
@@ -285,6 +284,27 @@
                             .attr('y',  margin + xOffset/2 )
                             .attr('text-anchor', 'middle')
                             .text( yVal.toUpperCase() + ' Variable' );
+            
+            // barebone
+            
+            
+            if ( !interaction ){
+                var xSeries = data.map( function( d ){ return +d[ xVal ]; } );
+                var ySeries = data.map( function( d ){ return +d[ yVal ]; } );
+                fitLineParams = calculateRegression( xSeries, ySeries );
+
+                var minX = d3.min( data, function( d ){ return +d[ xVal ]} );
+                var maxX = d3.max( data, function( d ){ return +d[ xVal ]} );
+
+
+                var fitLine = svg.append("svg:line")
+                                    .attr("x1", xScale( minX ))
+                                    .attr("y1", yScale( minX * fitLineParams.slope + fitLineParams.intercept ) )
+                                    .attr("x2", xScale( maxX ) )
+                                    .attr("y2", yScale( maxX * fitLineParams.slope + fitLineParams.intercept ) )
+                                    .style("stroke", "black");
+            }
+            
             // Now, we will start actually building our scatterplot!
             point = svg.selectAll('.point') // Select elements
                         .data(data);		// Bind data to elements
@@ -320,7 +340,40 @@
                     })
             }
             
-    }
+        }
+        
+        // Reffered From: http://trentrichardson.com/2010/04/06/compute-linear-regressions-in-javascript/
+        // Reffered From: https://en.wikipedia.org/wiki/Simple_linear_regression
+        function calculateRegression( xSeries, ySeries ){
+            
+            var num = xSeries.length
+            var meanX = 0;
+            var meanY = 0;
+            var meanXY = 0;
+            var meanXX = 0;
+            var meanYY = 0;
+            
+            for ( var i = 0; i < num; i++ ){
+                meanX += xSeries[ i ];
+                meanY += ySeries[ i ];
+                meanXY += ( xSeries[ i ] * ySeries[ i ] );
+                meanXX += ( xSeries[ i ] * xSeries[ i ] );
+                meanYY += ( ySeries[ i ] * ySeries[ i ] );
+            }
+            
+            meanX /= num;
+            meanY /= num;
+            meanXY /= num;
+            meanXX /= num;
+            meanYY /= num;
+            
+            var slope = ( meanXY - meanX * meanY ) / ( meanXX - meanX * meanX);
+		    var intercept = meanY - slope * meanX;
+		    //var r2 = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+            return { slope: slope, intercept: intercept };
+
+        }
+        
         
         // Put your part three & four code here ***********************
         
