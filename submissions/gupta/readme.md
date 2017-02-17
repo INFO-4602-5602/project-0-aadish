@@ -4,6 +4,9 @@
 
 <h2>Bells Implemented</h2>
 
+<h3>Bell: Tooltips</h3>
+I have used svg:title to implement tooltip
+
 <h3>Bell: Xs and Ys</h3>
 For this part adjoining bar chart for Y values is implemented. The data is sorted on the X value and therefore bar chart for Y values does not show any pattern
 
