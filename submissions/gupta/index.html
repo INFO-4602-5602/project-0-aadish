@@ -41,8 +41,23 @@
         <div class="row">
             <div id="partThree">
                 <h1>Part Three &amp; Four: </h1>
-                <div id="scatterplot" class="img-fluid col-md-6">
-                    <p id="scatterLabel"></p>
+                <div class="row">
+                    <div id="scatterplot" class="img-fluid col-md-6">
+                        <div class="col-md-offset-4">
+                            <p id="scatterLabel"></p>
+                        </div>
+                    </div>
+                    <div id="scatterplot" class="col-md-3">
+                        <div class="form-group">
+                            <label for="sel1">Select DataSet</label>
+                            <select class="form-control" id="sel1">
+                                <option value='data/anscombe_I.csv'>Anscombe I</option>
+                                <option value='data/anscombe_II.csv'>Anscombe II</option>
+                                <option value='data/anscombe_III.csv'>Anscombe III</option>
+                                <option value='data/anscombe_IV.csv'>Anscombe IV</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,25 +95,31 @@
         
         // Put your part one code here ***********************
         
-
+        var part3Dictionary;
         d3.csv( 'data/anscombe_I.csv', function( data ){
             checkDataset( data, "Anscombe I" );
             plotBarChart( data );
-            plotScatterPlot( data, "scatterplot", "Anscombe I", true );
-            plotScatterPlot( data, "scatterPlot-1", "Anscombe I", false );
+            part3Dictionary = plotScatterPlot( "scatterplot", "Anscombe I", true );
+            updateScatterPlot( data, part3Dictionary, true );
+            var res = plotScatterPlot( "scatterPlot-1", "Anscombe I", false );
+            updateScatterPlot( data, res, false );
         } );
+        
         d3.csv( 'data/anscombe_II.csv', function( data ){
             checkDataset( data, "Anscombe II" );
-            plotScatterPlot( data, "scatterPlot-2", "Anscombe II", false );
+            var res = plotScatterPlot( "scatterPlot-2", "Anscombe II", false );
+            updateScatterPlot( data, res, false );
         } );
         d3.csv( 'data/anscombe_III.csv', function( data ){
             checkDataset( data, "Anscombe III" );
-            plotScatterPlot( data, "scatterPlot-3", "Anscombe III", false );
+            var res = plotScatterPlot( "scatterPlot-3", "Anscombe III", false );
+            updateScatterPlot( data, res, false );
         } );
         d3.csv( 'data/anscombe_IV.csv', function( data ){
             //plotBarChart( data );
             checkDataset( data, "Anscombe IV" );
-            plotScatterPlot( data, "scatterPlot-4", "Anscombe IV", false );
+            var res = plotScatterPlot( "scatterPlot-4", "Anscombe IV", false );
+            updateScatterPlot( data, res, false );
         } );
         // Leave this to test your data uploading. All data uploading should be above this line
         function checkDataset(dataset, filename) {
@@ -219,24 +240,14 @@
             
         }// Put your part two code here ***********************
         
-        function plotScatterPlot( data, element, label, interaction ){
+        function plotScatterPlot( element, label, interaction ){
             if (!interaction){
                 $("#"+element).append("<h2><span class='label label-default center-block'>" + label + "</span></h2>");
             }
             var xScale = d3.scale.linear()
-                            .domain([d3.min(data, function(d) {
-                                return parseFloat(d[xVal]);
-                            })-1, d3.max(data, function(d) {
-                                return parseFloat(d[xVal]);
-                            })+1])
                             .range([xOffset + margin, svgWidth - margin]);
 
             var yScale = d3.scale.linear()
-                            .domain([d3.min(data, function(d) {
-                                return parseFloat(d[yVal]);
-                            })-1, d3.max(data, function(d) {
-                                return parseFloat(d[yVal]);
-                            })+1])
                             .range([svgHeight - yOffset - margin, margin]);
 
             // Next, we will create an SVG element to contain our visualization.
@@ -285,8 +296,34 @@
                             .attr('text-anchor', 'middle')
                             .text( yVal.toUpperCase() + ' Variable' );
             
-            // barebone
             
+            return { svgElement: svg, xScale: xScale, xAxis: xAxis, xAxisG: xAxisG, yScale: yScale, yAxis: yAxis, yAxisG: yAxisG }
+            
+            
+            
+        }
+        
+        function updateScatterPlot( data, elementDict, interaction  ){
+            elementDict.xScale
+                            .domain([d3.min(data, function(d) {
+                                return parseFloat(d[xVal]);
+                            })-1, d3.max(data, function(d) {
+                                return parseFloat(d[xVal]);
+                            })+1]);
+                            
+
+            elementDict.yScale
+                            .domain([d3.min(data, function(d) {
+                                return parseFloat(d[yVal]);
+                            })-1, d3.max(data, function(d) {
+                                return parseFloat(d[yVal]);
+                            })+1])
+                            
+            elementDict.xAxis.scale( elementDict.xScale );
+	        elementDict.xAxisG.call( elementDict.xAxis );
+            
+            elementDict.yAxis.scale( elementDict.yScale );
+	        elementDict.yAxisG.call( elementDict.yAxis );
             
             if ( !interaction ){
                 var xSeries = data.map( function( d ){ return +d[ xVal ]; } );
@@ -297,25 +334,25 @@
                 var maxX = d3.max( data, function( d ){ return +d[ xVal ]} );
 
 
-                var fitLine = svg.append("svg:line")
-                                    .attr("x1", xScale( minX ))
-                                    .attr("y1", yScale( minX * fitLineParams.slope + fitLineParams.intercept ) )
-                                    .attr("x2", xScale( maxX ) )
-                                    .attr("y2", yScale( maxX * fitLineParams.slope + fitLineParams.intercept ) )
+                var fitLine = elementDict.svgElement.append("svg:line")
+                                    .attr("x1", elementDict.xScale( minX ))
+                                    .attr("y1", elementDict.yScale( minX * fitLineParams.slope + fitLineParams.intercept ) )
+                                    .attr("x2", elementDict.xScale( maxX ) )
+                                    .attr("y2", elementDict.yScale( maxX * fitLineParams.slope + fitLineParams.intercept ) )
                                     .style("stroke", "black");
             }
             
             // Now, we will start actually building our scatterplot!
-            point = svg.selectAll('.point') // Select elements
-                        .data(data);		// Bind data to elements
+            point = elementDict.svgElement.selectAll('.point') // Select elements
+                               .data(data);		// Bind data to elements
 
             point.enter().append('svg:circle');	// Create new elements if needed
 
             // Update our selection
             point
                 .attr('class', 'point')									// Give it a class
-                .attr('cx', function(d) { return xScale(d[xVal]); })	// x-coordinate
-                .attr('cy', function(d) { return yScale(d[yVal]); })	// y-coordinate
+                .attr('cx', function(d) { return elementDict.xScale(d[xVal]); })	// x-coordinate
+                .attr('cy', function(d) { return elementDict.yScale(d[yVal]); })	// y-coordinate
                 .style('fill','green')									// color
                 .attr('r', 0)
                 //.transition()
@@ -340,6 +377,7 @@
                     })
             }
             
+            point.exit().remove();
         }
         
         // Reffered From: http://trentrichardson.com/2010/04/06/compute-linear-regressions-in-javascript/
@@ -374,7 +412,15 @@
 
         }
         
-        
+        $('#sel1').on('change', function(){
+            var filename = $('#sel1').val();
+            d3.csv( filename, function( data ){
+                $( '#scatterLabel' ).text( '' );
+                updateScatterPlot( data, part3Dictionary, true );
+            
+            } );
+            
+        });
         // Put your part three & four code here ***********************
         
         // Put your part five code here ***********************
