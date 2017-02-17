@@ -417,7 +417,8 @@
                         $( '#scatterLabel' ).text( 'X Value: ' + d[xVal] + ', Y Value: ' + d[yVal] )
                     })
             }
-            
+            point.append("svg:title")
+                .text(function(d) { return "X Value: " + d[xVal] + ", Y Value: " + d[yVal]; })
             point.exit().remove();
         }
         
