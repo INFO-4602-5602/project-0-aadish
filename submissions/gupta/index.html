@@ -407,18 +407,21 @@
                         d3.select( this )
                             .style( 'fill', '#6CC8E8' )
                             .style( 'cursor', 'pointer' );
+                        d3.select( this ).append("svg:title")
+                            .attr('class', 'tooltip')
+                            .text("X Value: " + d[xVal] + ", Y Value: " + d[yVal])
                     })
                     .on('mouseout', function(d){
                         d3.select( this )
                             .style( 'fill', '#11453D' )
                             .style( 'cursor', 'default' );
+                        d3.selectAll( '.tooltip' ).remove();
                     })
                     .on('click', function(d){
                         $( '#scatterLabel' ).text( 'X Value: ' + d[xVal] + ', Y Value: ' + d[yVal] )
                     })
             }
-            point.append("svg:title")
-                .text(function(d) { return "X Value: " + d[xVal] + ", Y Value: " + d[yVal]; })
+            
             point.exit().remove();
         }
         
